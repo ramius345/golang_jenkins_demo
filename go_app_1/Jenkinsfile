@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+	kubernetes {
+	    label "jenkins-golang-skopeo-agent"
+	    cloud "openshift"
+            inheritFrom "maven"
+	    containerTemplate {
+		name "jnlp"
+		image "image-registry.openshift-image-registry.svc:5000/golang-jenkins-demo/jenkins-agent-appdev"
+		resourceRequestMemory "2Gi"
+		resourceLimitMemory "2Gi"
+		resourceRequestCpu "2"
+		resourceLimitCpu "2"
+	    }
+	}
+    }
+
+
+    stages {
+        stage('Checkout Source') {
+            checkout scm
+
+            dir('go_app_1'){
+                script {
+                    sh "go version"
+                }
+            }
+        }
+    }
+}
