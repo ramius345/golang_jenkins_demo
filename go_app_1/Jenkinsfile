@@ -24,7 +24,6 @@ pipeline {
                 dir('go_app_1'){
                     script {
                         sh "go build"
-                        sh "./go_app_1"
                     }
                 }
             }
