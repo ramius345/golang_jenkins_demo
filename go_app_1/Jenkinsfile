@@ -18,11 +18,13 @@ pipeline {
 
     stages {
         stage('Checkout Source') {
-            checkout scm
+            steps {
+                checkout scm
 
-            dir('go_app_1'){
-                script {
-                    sh "go version"
+                dir('go_app_1'){
+                    script {
+                        sh "go version"
+                    }
                 }
             }
         }

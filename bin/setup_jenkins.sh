@@ -26,3 +26,21 @@ source namespaces.env
 #    USER 1001' --name=jenkins-agent-appdev -n $JENKINS_NAMESPACE
 
 
+echo "apiVersion: v1
+items:
+- kind: \"BuildConfig\"
+  apiVersion: \"v1\"
+  metadata:
+    name: \"go-app-1-pipeline\"
+  spec:
+    source:
+      type: \"Git\"
+      git:
+        uri: \"https://github.com/ramius345/golang_jenkins_demo.git\"
+      contextDir: go_app_1
+    strategy:
+      type: \"JenkinsPipeline\"
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: Jenkinsfile
+kind: List
+metadata: []" | oc create -f - -n $JENKINS_NAMESPACE
