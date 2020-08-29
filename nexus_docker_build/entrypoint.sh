@@ -27,4 +27,4 @@ if [ ! -f /nexus-data/initialized.txt ]; then
 fi
 
 echo "Starting Nexus"
-/bin/sh -c "$/opt/sonatype/sonatype-work/start-nexus-repository-manager.sh"
+/bin/sh -c "/opt/sonatype/sonatype-work/start-nexus-repository-manager.sh"

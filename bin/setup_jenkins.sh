@@ -32,18 +32,18 @@ source namespaces.env
 
 
 # #setup the container build for the customized nexus container
-oc new-build --strategy=docker -D $'FROM sonatype/nexus3:latest\n
-   USER root
-   RUN curl https://github.com/ramius345/golang_jenkins_demo/raw/master/nexus_docker_build/nexus-data.tar.gz -o /orig-nexus-data.tar.gz \n
-   RUN curl https://raw.githubusercontent.com/ramius345/golang_jenkins_demo/master/nexus_docker_build/entrypoint.sh -o /entrypoint.sh \n
-   RUN chmod +x /entrypoint.sh
-   USER nexus
-   ENTRYPOINT [ /entrypoint.sh ]\n
-' --name=custom-nexus -n $JENKINS_NAMESPACE
+# oc new-build --strategy=docker -D $'FROM sonatype/nexus3:latest\n
+#    USER root
+#    RUN curl -L  https://github.com/ramius345/golang_jenkins_demo/raw/master/nexus_docker_build/nexus-data.tar.gz -o /orig-nexus-data.tar.gz \n
+#    RUN curl -L  https://raw.githubusercontent.com/ramius345/golang_jenkins_demo/master/nexus_docker_build/entrypoint.sh -o /entrypoint.sh \n
+#    RUN chmod +x /entrypoint.sh
+#    USER nexus
+#    ENTRYPOINT [ /entrypoint.sh ]\n
+# ' --name=custom-nexus -n $JENKINS_NAMESPACE
 
 
-# Setup the nexus installation utilizing a helm chart
-# helm install --name-template nexus ../nexus-chart
+# # Setup the nexus installation utilizing a helm chart
+helm install --name-template nexus ../nexus-chart
 
 
 # # Setup the go application 1 build
