@@ -26,7 +26,7 @@ spec:
         run: nexus
     spec:
       containers:
-      - image: sonatype/nexus3
+      - image: image-registry.openshift-image-registry.svc:5000/golang-jenkins-demo/custom-nexus
         imagePullPolicy: Always
         name: nexus
         ports:

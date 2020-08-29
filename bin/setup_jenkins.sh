@@ -30,11 +30,23 @@ source namespaces.env
 #    rm -rf /usr/local/bin/linux-amd64\n
 #    USER 1001' --name=jenkins-agent-appdev -n $JENKINS_NAMESPACE
 
-# Setup the nexus installation utilizing a helm chart
-helm install --name-template nexus ../nexus-chart
+
+#setup the container build for the customized nexus container
+oc new-build --strategy=docker -D $'FROM sonatype/nexus3:latest\n
+   USER root
+   RUN curl https://github.com/ramius345/golang_jenkins_demo/raw/master/nexus-chart/nexus-data.tar.gz -o /orig-nexus-data.tar.gz \n
+   RUN curl https://raw.githubusercontent.com/ramius345/golang_jenkins_demo/master/nexus-chart/entrypoint.sh -o /entrypoint.sh \n
+   RUN chmod +x /entrypoint.sh
+   USER nexus
+   ENTRYPOINT [ /entrypoint.sh ]\n
+' --name=custom-nexus -n $JENKINS_NAMESPACE
 
 
-# Setup the go application 1 build
+# # Setup the nexus installation utilizing a helm chart
+# helm install --name-template nexus ../nexus-chart
+
+
+# # Setup the go application 1 build
 # echo "apiVersion: v1
 # items:
 # - kind: \"BuildConfig\"
