@@ -18,11 +18,13 @@
 # ],
 
 #if the initialization tar is here, then unpack it
-if [ -f /orig-nexus-data.tar.gz ]; then
-    touch /nexus-data/initialized.txt
+if [ ! -f /nexus-data/initialized.txt ]; then
+    echo "Cleaning up data directory"
     rm -rf /nexus-data/*
+    echo "Untarring files"
     tar -xzvf /orig-nexus-data.tar.gz
-    rm /orig-nexus-data.tar.gz
+    touch /nexus-data/initialized.txt
 fi
 
-/bin/sh -c "${SONATYPE_DIR}/start-nexus-repository-manager.sh"
+echo "Starting Nexus"
+/bin/sh -c "$/opt/sonatype/sonatype-work/start-nexus-repository-manager.sh"
