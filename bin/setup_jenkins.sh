@@ -17,30 +17,39 @@ source namespaces.env
 # #expose the jenkins service
 # oc expose svc jenkins -n $JENKINS_NAMESPACE
 
-# #setup the build container
+#setup the build container
 # oc new-build --strategy=docker -D $'FROM quay.io/openshift/origin-jenkins-agent-base:4.7.0\n
 #    USER root\n
 #    RUN rm -f /etc/yum.repos.d/* && \ \n
 #    curl https://raw.githubusercontent.com/ramius345/golang_jenkins_demo/master/slave_container/centos.repo -o /etc/yum.repos.d/centos.repo && \ \n
 #    yum -y --setopt=tsflags=nodocs install skopeo golang && yum clean all\n
+#    RUN mkdir -p /usr/local/bin && \ \n
+#    curl https://get.helm.sh/helm-canary-linux-amd64.tar.gz -o /usr/local/bin/helm.tar.gz && \ \n
+#    tar -xzvf /usr/local/bin/helm.tar.gz -C /usr/local/bin && \ \n
+#    mv /usr/local/bin/linux-amd64/helm /usr/local/bin/helm && \ \n
+#    rm -rf /usr/local/bin/linux-amd64\n
 #    USER 1001' --name=jenkins-agent-appdev -n $JENKINS_NAMESPACE
 
+# Setup the nexus installation utilizing a helm chart
+helm install --name-template nexus ../nexus-chart
 
-echo "apiVersion: v1
-items:
-- kind: \"BuildConfig\"
-  apiVersion: \"v1\"
-  metadata:
-    name: \"go-app-1-pipeline\"
-  spec:
-    source:
-      type: \"Git\"
-      git:
-        uri: \"https://github.com/ramius345/golang_jenkins_demo.git\"
-      contextDir: go_app_1
-    strategy:
-      type: \"JenkinsPipeline\"
-      jenkinsPipelineStrategy:
-        jenkinsfilePath: Jenkinsfile
-kind: List
-metadata: []" | oc create -f - -n $JENKINS_NAMESPACE
+
+# Setup the go application 1 build
+# echo "apiVersion: v1
+# items:
+# - kind: \"BuildConfig\"
+#   apiVersion: \"v1\"
+#   metadata:
+#     name: \"go-app-1-pipeline\"
+#   spec:
+#     source:
+#       type: \"Git\"
+#       git:
+#         uri: \"https://github.com/ramius345/golang_jenkins_demo.git\"
+#       contextDir: go_app_1
+#     strategy:
+#       type: \"JenkinsPipeline\"
+#       jenkinsPipelineStrategy:
+#         jenkinsfilePath: Jenkinsfile
+# kind: List
+# metadata: []" | oc create -f - -n $JENKINS_NAMESPACE
