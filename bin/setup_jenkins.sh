@@ -42,6 +42,12 @@ source namespaces.env
 # ' --name=custom-nexus -n $JENKINS_NAMESPACE
 
 
+# [ramius@redgrape bin]$ oc get builds | grep custom-nexus
+# custom-nexus-1           Docker            Dockerfile   Running    About a minute ago
+# [ramius@redgrape bin]$ oc get builds | grep custom-nexus
+# custom-nexus-1           Docker            Dockerfile   Complete   3 minutes ago   1m20s
+# [ramius@redgrape bin]$
+
 # # Setup the nexus installation utilizing a helm chart
 helm install --name-template nexus ../nexus-chart
 
