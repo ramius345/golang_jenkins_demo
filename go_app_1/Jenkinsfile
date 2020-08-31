@@ -59,7 +59,7 @@ pipeline {
 ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
 USER appuser:appuser
 ENTRYPOINT [ "/go_app_1" ]
-"""                        buildconfig.startBuild("--wait=true")                        
+"""                        openshift.selector("bc","go-app-1").startBuild("--wait=true")                        
                         }
                     }
                 }
