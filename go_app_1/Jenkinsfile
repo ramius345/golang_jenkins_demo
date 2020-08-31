@@ -19,15 +19,22 @@ pipeline {
     stages {
         stage('Checkout Source') {
             steps {
-                checkout scm
-
+                checkout scm      
+            }
+        }
+        stage('Unit Test'){
+            steps {
                 dir('go_app_1'){
                     script {
                         sh "go test"
                     }
                 }
-
+            }
+        }
+        stage('Build'){
+            steps {
                 dir('go_app_1/cmd'){
+                    script {
                         sh "go build"
                     }
                 }
