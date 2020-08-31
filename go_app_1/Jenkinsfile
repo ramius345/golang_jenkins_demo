@@ -40,5 +40,14 @@ pipeline {
                 }
             }
         }
+        stage('Upload Binary'){
+            steps {
+                dir('go_app_1/cmd'){
+                    script {
+                        sh "curl -v -u admin:pass#123 cmd http://nexus.golang-jenkins-demo.svc.cluster.local:8081/binaries/go_app_1/$JENKINS_BUILD/go_app_1"
+                    }
+                }
+            }
+        }
     }
 }
