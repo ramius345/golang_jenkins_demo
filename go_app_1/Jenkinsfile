@@ -51,14 +51,16 @@ pipeline {
         }
         stage('Build Container'){
             steps {
-                openshift.withCluster(){
-                    openshift.withProject("") {
-                        var buildconfig = openshift.selector("bc","go-app-1")
-                        buildconfig.source.dockerfile.value = """FROM scratch
+                script{
+                    openshift.withCluster(){
+                        openshift.withProject("") {
+                            var buildconfig = openshift.selector("bc","go-app-1")
+                            buildconfig.source.dockerfile.value = """FROM scratch
 ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
 USER appuser:appuser
 ENTRYPOINT [ "/go_app_1" ]
 """                        buildconfig.startBuild("--wait=true")                        
+                        }
                     }
                 }
             }
