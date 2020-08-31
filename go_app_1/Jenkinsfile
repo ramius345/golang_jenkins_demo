@@ -23,6 +23,11 @@ pipeline {
 
                 dir('go_app_1'){
                     script {
+                        sh "go test"
+                    }
+                }
+
+                dir('go_app_1/cmd'){
                         sh "go build"
                     }
                 }
