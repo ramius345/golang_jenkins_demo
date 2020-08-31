@@ -12,12 +12,8 @@ oc new-app jenkins-ephemeral  --param MEMORY_LIMIT=4Gi --param DISABLE_ADMINISTR
 #set the DC resources
 oc set resources dc jenkins --limits=memory=2Gi,cpu=2 --requests=memory=1Gi,cpu=500m -n ${JENKINS_NAMESPACE}
 
-sleep 5
 
-#expose the jenkins service
-oc expose svc jenkins -n $JENKINS_NAMESPACE
-
-setup the build container
+#setup the build container
 oc new-build --strategy=docker -D $'FROM quay.io/openshift/origin-jenkins-agent-base:4.7.0\n
    USER root\n
    RUN rm -f /etc/yum.repos.d/* && \ \n
@@ -76,3 +72,13 @@ items:
         jenkinsfilePath: Jenkinsfile
 kind: List
 metadata: []" | oc create -f - -n $JENKINS_NAMESPACE
+
+
+
+#Setup the dockerfile build for creating our go container
+#setup the container build for the customized nexus container
+oc new-build --strategy=docker -D $'FROM scratch\n
+   ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
+   USER appuser:appuser\n
+   ENTRYPOINT [ "/go_app_1" ]\n
+' --name=go-app-1 -n $JENKINS_NAMESPACE
