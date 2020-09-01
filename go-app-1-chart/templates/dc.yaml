@@ -1,0 +1,42 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    run: go-app-1
+  name: go-app-1
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    run: go-app-1
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: go-app-1
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/{{.Release.namespace}}/go-app-1
+        imagePullPolicy: Always
+        name: go-app-1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+  - type: ConfigChange

@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: go-app-1
+spec:
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: go-app-1
+    weight: 100
+  wildcardPolicy: None

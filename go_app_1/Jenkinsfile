@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script{
                     openshift.withCluster(){
-                        openshift.withProject("golang-jenkins-demo") {
+                        openshift.withProject("go-app-1-dev") {
                             def dockerfileData = """FROM alpine:latest as builder
 RUN apk add curl
 RUN curl -L -v http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 -o /go_app_1
@@ -91,6 +91,17 @@ ENTRYPOINT [ "/go_app_1" ]"""
                             ]
                             openshift.apply(buildconfig)
                             openshift.selector("bc","go-app-1").startBuild("--wait=true")                        
+                        }
+                    }
+                }
+            }
+        }
+        stage('Tag Image'){
+            steps {
+                script {
+                    openshift.withCluster(){
+                        openshift.withProject("golang-jenkins-demo"){
+                            
                         }
                     }
                 }
