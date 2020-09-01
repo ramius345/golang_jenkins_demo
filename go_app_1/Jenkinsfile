@@ -44,7 +44,8 @@ pipeline {
             steps {
                 dir('go_app_1/cmd'){
                     script {
-                        sh "curl -v -u admin:pass#123 --upload-file cmd http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1"
+                        sh "tar -czvf cmd.tar.gz cmd"
+                        sh "curl -v -u admin:pass#123 --upload-file cmd.tar http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/cmd.tar"
                     }
                 }
             }
@@ -55,7 +56,7 @@ pipeline {
                     openshift.withCluster(){
                         openshift.withProject("golang-jenkins-demo") {
                             def dockerfileData = """FROM scratch
-ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
+ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/cmd.tar.gz /go_app_1
 USER appuser:appuser
 ENTRYPOINT [ \"/go_app_1\" ]"""
 
