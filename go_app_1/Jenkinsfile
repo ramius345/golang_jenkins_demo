@@ -54,11 +54,10 @@ pipeline {
                 script{
                     openshift.withCluster(){
                         openshift.withProject("golang-jenkins-demo") {
-                            openshift.selector("bc","go-app-1").spec.source.dockerfile="""FROM scratch
-ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
-USER appuser:appuser
-ENTRYPOINT [ "/go_app_1" ]"""
-                            openshift.apply(buildconfig)
+                            def patchStr = '\'{"spec":{"source":{"dockerfile": "FROM scratch\nADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/' +
+                                "$BUILD_NUMBER" +
+                                '/go_app_1 /go_app_1\nUSER appuser:appuser\nENTRYPOINT [ "/go_app_1" ]\n"}}}\''
+                            openshift.patch("bc/go-app-1", patchStr)
                             openshift.selector("bc","go-app-1").startBuild("--wait=true")                        
                         }
                     }
