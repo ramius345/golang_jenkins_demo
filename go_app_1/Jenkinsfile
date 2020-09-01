@@ -54,20 +54,13 @@ pipeline {
                 script{
                     openshift.withCluster(){
                         openshift.withProject("golang-jenkins-demo") {
-//                             def dockerfileData = """FROM alpine:latest as builder
-// RUN apk add curl
-// RUN curl http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 -o /go_app_1
-// RUN chmod +x /go_app_1
-// FROM alpine:latest
-// COPY --from=builder /go_app_1 /go_app_1
-                            // ENTRYPOINT [ "/go_app_1" ]"""
-
-                               def dockerfileData = """FROM alpine:latest as builder
-RUN apk add curl bash
-RUN curl -L -v  http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 -o /go_app_1
+                            def dockerfileData = """FROM alpine:latest as builder
+RUN apk add curl
+RUN curl -L -v http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 -o /go_app_1
 RUN chmod +x /go_app_1
+FROM alpine:latest
+COPY --from=builder /go_app_1 /go_app_1
 ENTRYPOINT [ "/go_app_1" ]"""
-
                             
 
                             def buildconfig = [
