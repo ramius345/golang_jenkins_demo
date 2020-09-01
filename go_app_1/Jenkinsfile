@@ -30,6 +30,7 @@ pipeline {
                 dir('go_app_1'){
                     script {
                         sh "go test"
+                        sh "go vet"
                     }
                 }
             }
