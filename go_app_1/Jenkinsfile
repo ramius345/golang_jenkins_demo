@@ -44,7 +44,6 @@ pipeline {
             steps {
                 dir('go_app_1/cmd'){
                     script {
-                        sh "tar -xvf cmd.tar cmd"
                         sh "curl -v -u admin:pass#123 --upload-file cmd http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1"
                     }
                 }
