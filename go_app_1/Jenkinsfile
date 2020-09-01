@@ -61,7 +61,7 @@ pipeline {
                                     "creationTimestamp": "2020-08-31T22:05:39Z",
                                     "labels": [
                                         "build": "go-app-1"
-                                    ]
+                                    ],
                                     "name": "go-app-1",
                                     "namespace": "golang-jenkins-demo"
                                 ]
