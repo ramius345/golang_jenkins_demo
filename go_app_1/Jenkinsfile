@@ -64,7 +64,7 @@ pipeline {
                                     ],
                                     "name": "go-app-1",
                                     "namespace": "golang-jenkins-demo"
-                                ]
+                                ],
                                 "spec": [
                                     "source": [
                                         "dockerfile": "FROM scratch\n\n   ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1\n   USER appuser:appuser\n\n   ENTRYPOINT [ \"/go_app_1\" ]\n\n",
