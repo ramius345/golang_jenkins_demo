@@ -71,7 +71,7 @@ ENTRYPOINT [ \"/go_app_1\" ]"""
                                 ],
                                 "spec": [
                                     "source": [
-                                        "dockerfile": dockerfileData
+                                        "dockerfile": dockerfileData,
                                         "type": "Dockerfile"
                                     ],
                                     "strategy": [
