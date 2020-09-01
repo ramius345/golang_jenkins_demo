@@ -35,7 +35,7 @@ pipeline {
             steps {
                 dir('go_app_1/cmd'){
                     script {
-                        sh "RUN GOOS=linux GOARCH=amd64 go build -ldflags=\"-w -s\" -o cmd"
+                        sh "GOOS=linux GOARCH=amd64 go build -ldflags=\"-w -s\" -o cmd"
                     }
                 }
             }
