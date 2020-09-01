@@ -35,7 +35,7 @@ pipeline {
             steps {
                 dir('go_app_1/cmd'){
                     script {
-                        sh "go build"
+                        sh "RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o cmd"
                     }
                 }
             }
@@ -58,7 +58,7 @@ pipeline {
 RUN apk add curl
 RUN curl http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 -o /go_app_1
 RUN chmod +x /go_app_1
-FROM scratch
+FROM alpine:latest
 COPY --from=builder /go_app_1 /go_app_1
 ENTRYPOINT [ "/go_app_1" ]"""
 
