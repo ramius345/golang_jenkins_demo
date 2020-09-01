@@ -71,7 +71,7 @@ ENTRYPOINT [ "/go_app_1" ]"""
                                         "build": "go-app-1"
                                     ],
                                     "name": "go-app-1",
-                                    "namespace": "golang-jenkins-demo"
+                                    "namespace": "go-app-1-dev"
                                 ],
                                 "spec": [
                                     "source": [
