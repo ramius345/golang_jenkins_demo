@@ -100,12 +100,24 @@ ENTRYPOINT [ "/go_app_1" ]"""
             steps {
                 script {
                     openshift.withCluster(){
-                        openshift.withProject("golang-jenkins-demo"){
-                            
+                        openshift.withProject("go-app-1-dev"){
+                            openshift.tag("go-app-1:latest","go-app-1:0.0.$BUILD_NUMBER")
                         }
                     }
                 }
             }
         }
+        stage('Update Dev Deployment'){
+            steps {
+                script {
+                    openshift.withCluster(){
+                        openshift.withProject("go-app-1-dev"){
+                            openshift.set("image","dc/go-app-1","go-app-1=image-registry.openshift-image-registry.svc:5000/go-app-1-dev/go-app-1")
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }
