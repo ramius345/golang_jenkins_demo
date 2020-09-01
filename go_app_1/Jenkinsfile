@@ -55,8 +55,11 @@ pipeline {
                 script{
                     openshift.withCluster(){
                         openshift.withProject("golang-jenkins-demo") {
-                            def dockerfileData = """FROM scratch
+                            def dockerfileData = """FROM golang:alpine as builder
 ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1
+RUN chmod +x /go_app_1
+FROM scratch
+COPY --from=builder /go_app_1 /go_app_1
 USER appuser:appuser
 ENTRYPOINT [ \"/go_app_1\" ]"""
 
