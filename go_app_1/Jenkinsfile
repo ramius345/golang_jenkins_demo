@@ -60,7 +60,7 @@ RUN chmod +x /go_app_1
 FROM scratch
 COPY --from=builder /go_app_1 /go_app_1
 USER appuser:appuser
-ENTRYPOINT [ \"/go_app_1\" ]"""
+ENTRYPOINT [ "/go_app_1" ]"""
 
                             def buildconfig = [
                                 "apiVersion": "build.openshift.io/v1",
