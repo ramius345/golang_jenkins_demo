@@ -54,33 +54,33 @@ pipeline {
                 script{
                     openshift.withCluster(){
                         openshift.withProject("golang-jenkins-demo") {
-                            def buildconfig = {
+                            def buildconfig = [
                                 "apiVersion": "build.openshift.io/v1"
                                 "kind": "BuildConfig"
-                                "metadata": {
+                                "metadata": [
                                     "creationTimestamp": "2020-08-31T22:05:39Z"
-                                    "labels": {
+                                    "labels": [
                                         "build": "go-app-1"
-                                    }
+                                    ]
                                     "name": "go-app-1"
                                     "namespace": "golang-jenkins-demo"
-                                }
-                                "spec": {
-                                    "source": {
+                                ]
+                                "spec": [
+                                    "source": [
                                         "dockerfile": "FROM scratch\n\n   ADD http://nexus.golang-jenkins-demo.svc.cluster.local:8081/repository/binaries/go_app_1/$BUILD_NUMBER/go_app_1 /go_app_1\n   USER appuser:appuser\n\n   ENTRYPOINT [ \"/go_app_1\" ]\n\n"
                                         "type": "Dockerfile"
-                                    }
-                                    "strategy": {
-                                        "dockerStrategy": {
-                                            "from": {
+                                    ]
+                                    "strategy": [
+                                        "dockerStrategy": [
+                                            "from": [
                                                 "kind": "DockerImage"
                                                 "name": "scratch"
-                                            }
-                                        }
+                                            ]
+                                        ]
                                         "type": "Docker"
-                                    }
-                                }
-                            }
+                                    ]
+                                ]
+                            ]
                             openshift.apply(buildconfig)
                             openshift.selector("bc","go-app-1").startBuild("--wait=true")                        
                         }
