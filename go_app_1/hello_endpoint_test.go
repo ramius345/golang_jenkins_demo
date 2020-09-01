@@ -48,7 +48,7 @@ func TestHello(t *testing.T) {
 		t.Errorf("Message wasn't a string\n")
 	}
 
-	if data != "hello everyone" {
-		t.Errorf("Message wasnt hello everyone!\n")
+	if data != "hello trigger?" {
+		t.Errorf("Message wasnt trigger!\n")
 	}
 }
