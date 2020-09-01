@@ -89,7 +89,7 @@ ENTRYPOINT [ "/go_app_1" ]"""
                                         "dockerStrategy": [
                                             "from": [
                                                 "kind": "DockerImage",
-                                                "name": "scratch"
+                                                "name": "alpine:latest"
                                             ]
                                         ],
                                         "type": "Docker"
