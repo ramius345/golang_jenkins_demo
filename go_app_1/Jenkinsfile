@@ -94,7 +94,8 @@ ENTRYPOINT [ "/go_app_1" ]"""
                                 ]
                             ]
                             openshift.apply(buildconfig)
-                            openshift.selector("bc","go-app-1").startBuild("--wait=true")                        
+                            openshift.selector("bc","go-app-1").startBuild("--wait=true")
+                            sleep 5
                         }
                     }
                 }
